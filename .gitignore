@@ -1,0 +1,81 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+env/
+venv/
+.venv/
+ENV/
+
+# IDE and Editor Folders
+.idea/
+.vscode/
+.spyderproject/
+.ropeproject/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Log files
+*.log
+
+# Environment variables
+# Never commit files with secrets!
+.env
+
+# Test and coverage artifacts
+.pytest_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+nosetests.xml
+coverage.xml
+
+# Machine Learning Data and Models
+# It's good practice to not commit large data files or trained models.
+# Use a tool like Git LFS (Large File Storage) for models if you need to version them.
+data/
+processed_data/
+models/
+*.pkl
+*.h5
+*.pth
+
+# PyInstaller
+# Usually these files are written by a python script from a template
+# before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.spec
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
