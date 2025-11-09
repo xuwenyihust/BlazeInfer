@@ -1,11 +1,16 @@
 <div align="center">
 
-# BlazeInfer
+![# BlazeInfer](assets/logo.png)
 A high-performance, light-weight llm inference framework.
 
 </div>
 
+--------------------------------------------------------------------------------
+
+## About
+
 ## Features
+- Optimized Attention Kernels
 
 ## Getting Started
 
