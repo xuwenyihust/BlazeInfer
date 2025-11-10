@@ -1,0 +1,69 @@
+from .executor.model_executor import SimpleModelExecutor
+import torch
+import logging
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(name)s - %(message)s')
+
+
+def generate_text_naively(
+    executor: SimpleModelExecutor, 
+    prompt: str, 
+    max_new_tokens: int = 50
+):
+    """
+    Generates text autoregressively WITHOUT a KV cache.
+    This is the "naive" implementation.
+    """
+    tokenizer = executor.tokenizer
+    device = executor.device
+
+    logger.info(f"\nPrompt: '{prompt}'")
+
+    # 1. Tokenize the input prompt
+    # We add [0] at the end because the tokenizer returns a batch
+    input_ids = tokenizer.encode(prompt, return_tensors="pt").to(device)
+
+    generated_token_ids = []
+
+    # 2. The autoregressive loop
+    for _ in range(max_new_tokens):
+        # ------------------------------------------------------------------
+        # This is the core "naive" part:
+        # In every loop, we pass the *entire* history of tokens
+        # (original prompt + generated tokens) back into the model.
+        # ------------------------------------------------------------------
+        current_ids_to_process = input_ids
+
+        # 3. Run the forward pass using our executor
+        # 'logits' will have shape [batch_size, sequence_length, vocab_size]
+        logits = executor.forward(current_ids_to_process)
+
+        # 4. Get the logits for the *very last* token
+        # This tells us the model's prediction for the *next* token
+        # Shape: [batch_size, vocab_size]
+        next_token_logits = logits[:, -1, :]
+
+        # 5. Get the most likely token (this is "greedy sampling")
+        # Shape: [batch_size]
+        next_token_id = torch.argmax(next_token_logits, dim=-1)
+
+        # 6. Check for the End-of-Sequence token
+        if next_token_id == tokenizer.eos_token_id:
+            logger.info("\n[End of sequence reached]")
+            break
+
+        # 7. Add the new token to our full sequence
+        # This is the "autoregressive" part: the new token is now
+        # part of the input for the next loop.
+        input_ids = torch.cat([input_ids, next_token_id.unsqueeze(0)], dim=-1)
+        
+        # Also store it for decoding later
+        generated_token_ids.append(next_token_id.item())
+
+        # (Optional) Print the new token as it's generated
+        print(tokenizer.decode(next_token_id), end="", flush=True)
+
+    # 8. Decode the final generated text
+    final_text = tokenizer.decode(generated_token_ids)
+    return final_text
