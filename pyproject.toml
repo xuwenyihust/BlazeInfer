@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "blazeinfer"
-version = "0.0.0"
+version = "0.0.1"
 authors = [
   { name="Wenyi Xu", email="wenyixu101@email.com" },
 ]
@@ -21,7 +21,7 @@ classifiers = [
 # Note: Installing PyTorch with specific CUDA versions may require using --index-url.
 # e.g., pip install -r requirements.txt --index-url https://download.pytorch.org/whl/cu121
 dependencies = [
-    "torch>=2.9.0,<2.10.0",
+    "torch>=2.10.0",
     "numpy>=1.26.0",
     "transformers>=4.40.0", # For tokenizers and model configurations
     "accelerate>=0.32.0",   # For device_map and advanced model loading
