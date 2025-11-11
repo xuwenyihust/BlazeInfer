@@ -20,9 +20,17 @@ def generate_text_naively(
 
     logger.info(f"\nPrompt: '{prompt}'")
 
-    # 1. Tokenize the input prompt
-    # We add [0] at the end because the tokenizer returns a batch
-    input_ids = tokenizer.encode(prompt, return_tensors="pt").to(device)
+    # 1. Format the prompt using the model's chat template.
+    # This is the correct way to use an instruction-tuned model.
+    # It adds special tokens (e.g., <|im_start|>) to structure the conversation.
+    messages = [
+        {"role": "user", "content": prompt}
+    ]
+    input_ids = tokenizer.apply_chat_template(
+        messages,
+        add_generation_prompt=True, # This adds the tokens to signal the assistant's turn
+        return_tensors="pt"
+    ).to(device)
 
     generated_token_ids = []
 

@@ -8,8 +8,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 
 def main():
-    # Llama 3.1 is a great choice for conversational tasks.
-    model_id = "meta-llama/Llama-3.1-8B-Instruct"
+    model_id = "Qwen/Qwen2-1.5B-Instruct"
 
     try:
         # Step 1: Create the executor. This will load the model.
