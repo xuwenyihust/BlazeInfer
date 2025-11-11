@@ -8,22 +8,26 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 
 def main():
-    # Let's use a very small, fast model for this example
-    # model_id = "gpt2"
-    
-    # Or, if you have access, a Llama model:
-    # model_id = "meta-llama/Llama-3.1-8B-Instruct"
-    
     model_id = "gpt2" # Using gpt2 as it's small and requires no login
 
     try:
         # Step 1: Create the executor. This will load the model.
         executor = SimpleModelExecutor(model_id=model_id)
-        
-        # Step 2: Run the naive generation loop
-        prompt = "Hello, my name is"
-        generate_text_naively(executor, prompt, max_new_tokens=50)
 
+        # Step 2: Start a conversational loop
+        while True:
+            # Get input from the user
+            prompt = input("\nEnter your prompt (or type 'exit' to quit): ")
+
+            # Check for exit condition
+            if prompt.strip().lower() == "exit":
+                print("Exiting BlazeInfer. Goodbye!")
+                break
+
+            # Run the naive generation loop with the user's prompt
+            print("\nBlazeInfer: ", end="", flush=True)
+            generate_text_naively(executor, prompt, max_new_tokens=50)
+            print("\n" + "="*50)
     except ImportError:
         logger.info("\nError: Please install transformers and torch.")
         logger.info("Run: pip install transformers torch")
