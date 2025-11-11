@@ -8,7 +8,8 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 
 def main():
-    model_id = "gpt2" # Using gpt2 as it's small and requires no login
+    # Llama 3.1 is a great choice for conversational tasks.
+    model_id = "meta-llama/Llama-3.1-8B-Instruct"
 
     try:
         # Step 1: Create the executor. This will load the model.

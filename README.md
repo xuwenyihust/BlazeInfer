@@ -5,6 +5,12 @@ A high-performance, light-weight llm inference framework.
 
 </div>
 
+<div align="center">
+
+[![PyPI version](https://img.shields.io/pypi/v/blazeinfer.svg)](https://pypi.org/project/blazeinfer/)
+
+</div>
+
 --------------------------------------------------------------------------------
 
 ## About
