@@ -42,11 +42,15 @@ def generate_text_naively(
         # 4. Get the logits for the *very last* token
         # This tells us the model's prediction for the *next* token
         # Shape: [batch_size, vocab_size]
+        # Example: next_token_logits: tensor([[-68.4375, -69.0625, -73.3125,  ..., -77.0000, -77.1250, -70.0625]], dtype=torch.float16)
         next_token_logits = logits[:, -1, :]
+        logger.debug(f"next_token_logits: {next_token_logits}")
 
         # 5. Get the most likely token (this is "greedy sampling")
         # Shape: [batch_size]
+        # Example: tensor([1757])
         next_token_id = torch.argmax(next_token_logits, dim=-1)
+        logger.debug(f"next_token_id: {next_token_id}")
 
         # 6. Check for the End-of-Sequence token
         if next_token_id == tokenizer.eos_token_id:
@@ -56,7 +60,9 @@ def generate_text_naively(
         # 7. Add the new token to our full sequence
         # This is the "autoregressive" part: the new token is now
         # part of the input for the next loop.
+        # input_ids example: tensor([[15496,    11,   616,  1438,   318,  1757]])
         input_ids = torch.cat([input_ids, next_token_id.unsqueeze(0)], dim=-1)
+        logger.debug(f"input_ids: {input_ids}")
         
         # Also store it for decoding later
         generated_token_ids.append(next_token_id.item())
